@@ -1,3 +1,8 @@
+/**
+ * @Auther Malllidan
+ * @Version 1.0
+ * @date 2018.7.23
+ */
 package com.triffic.JavaTool;
 
 import java.sql.Connection;
@@ -5,24 +10,26 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.*;
 
-public class MysqlLink {
+public  class  MysqlLink {
     private static String url= "jdbc:mysql://localhost:3306/test";
     private static String username="root";
     private static String password="123456";
     private static String jdbc_driver="com.mysql.jdbc.Driver";
     private static Connection con;
     private static Statement state;
-    private static ResultSet result;
+    private  ResultSet result;
+    private ResultSetMetaData  meta_data;
 
-    public static void main(String...arg){
-        try {
+    public static void main(String...arg) throws Exception{
+
+            String sql_select = "select * from I056";
             Connect();
-            state.close();
-            con.close();
+            MysqlLink mysqllink=new MysqlLink() ;
+
+            mysqllink.Select(sql_select);
+            StatetClose();
+            ConnectClose();
             System.out.println("测试成功");
-        }catch (SQLException e){
-            System.out.println("测试失败");
-        }
 
     }
 
@@ -43,6 +50,35 @@ public class MysqlLink {
         }catch (SQLException e){
             System.out.println("数据库连接失败");
         }
+    }
+    public  void Select(String sql) {
+        try {
+            result = state.executeQuery(sql);
+            meta_data = result.getMetaData();
+            for (int index = 1; index <= meta_data.getColumnCount(); index++) {
+                System.out.print(meta_data.getColumnLabel(index) + " ");
+            }
+            System.out.println();
+
+        } catch (Exception e) {
+
+        }
+    }
+   // public  abstract void Select(String sql);
+    public static void ConnectClose() throws Exception{
+        con.close();
+    }
+    public static void StatetClose() throws Exception{
+        state.close();
+    }
+    public  void ResultClose() throws Exception{
+        result.close();
+    }
+    public ResultSet GetResult(){
+        return result;
+    }
+    public ResultSetMetaData GetMetaData(){
+        return meta_data;
     }
 
 
