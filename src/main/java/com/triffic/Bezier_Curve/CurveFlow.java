@@ -9,7 +9,9 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CurveFlow {
     public static void main(String...args){
@@ -31,6 +33,11 @@ public class CurveFlow {
         }catch (Exception e){
             e.printStackTrace();
         }
+        Map<String,Object> directionlist=new HashMap<String,Object>();
+
+
+        directionlist.put("flow0base",new ArrayList<CarData>());
+        System.out.println(directionlist.get("flowbase").getClass());
 
     }
 
@@ -54,14 +61,39 @@ public class CurveFlow {
             }
             timelenth=(float) ((timeend-timestart)/(3600*1.0));
             carflow=cardatalist.size()/timelenth;
-
-
-
-
-
-
         }
         return carflow;
 
     }
+//    public static Map<String,Object> DirectionSwitch(List<CarData> carDataList){//返回map位[0]
+//        Map<String,Object> directionlist=new HashMap<String,Object>();
+//
+//
+//        directionlist.put("flow0base",new ArrayList<CarData>());
+//        directionlist.put("flow0to2",new ArrayList<CarData>());
+//        directionlist.put("flow0to4",new ArrayList<CarData>());
+//        directionlist.put("flow0to6",new ArrayList<CarData>());
+//        directionlist.put("flow2base",new ArrayList<CarData>());
+//        directionlist.put("flow2to0",new ArrayList<CarData>());
+//        directionlist.put("flow2to4",new ArrayList<CarData>());
+//        directionlist.put("flow2to6",new ArrayList<CarData>());
+//        directionlist.put("flow4base",new ArrayList<CarData>());
+//        directionlist.put("flow4to0",new ArrayList<CarData>());
+//        directionlist.put("flow4to2",new ArrayList<CarData>());
+//        directionlist.put("flow4to6",new ArrayList<CarData>());
+//        directionlist.put("flow6base",new ArrayList<CarData>());
+//        directionlist.put("flow6to0",new ArrayList<CarData>());
+//        directionlist.put("flow6to2",new ArrayList<CarData>());
+//        directionlist.put("flow6to4",new ArrayList<CarData>());
+//
+//
+//        for(CarData c:carDataList){
+//            if(c.GetDirection()==0){
+//                directionlist.get("flow0base")
+//            }
+//        }
+//
+//
+//
+//    }
 }
