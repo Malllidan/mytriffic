@@ -1,3 +1,8 @@
+/**
+ * @Auther Malllidan
+ * @Version 1.0
+ * @date 2018.7.23
+ */
 package com.triffic.JavaTool;
 
 public class CarData {

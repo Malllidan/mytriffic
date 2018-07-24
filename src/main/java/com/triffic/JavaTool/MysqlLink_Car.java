@@ -1,3 +1,8 @@
+/**
+ * @Auther Malllidan
+ * @Version 1.0
+ * @date 2018.7.23
+ */
 package com.triffic.JavaTool;
 
 import java.sql.ResultSet;
@@ -9,17 +14,18 @@ public class MysqlLink_Car extends MysqlLink {
     private List<CarData> cardatalist = new ArrayList<CarData>();
 
     public static void main(String...arg) throws Exception{
-        String sql_select = "select * from I056";
-        MysqlLink.Connect();
-        MysqlLink_Car mysqllink_car=new MysqlLink_Car();
-        mysqllink_car.Select(sql_select);
 
-
+        String sql="i056";
+        String date1="2017-05-24 0:0:0";
+        String date2="2017-05-25 0:0:0";
+        Connect();
+        MysqlLink_Car mysqllink= new MysqlLink_Car();
+        mysqllink.Select(sql,date1,date2);
 
     }
-
-    public void Select(String sql){
-        super.Select(sql);
+    @Override
+    public void Select(String sql,String astart,String aend){
+        super.Select(sql,astart,aend);
         ResultSet result=super.GetResult();
         try {
             while (result.next()){
