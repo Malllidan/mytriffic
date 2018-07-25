@@ -5,6 +5,8 @@
  */
 package com.triffic.JavaTool;
 
+import java.security.PublicKey;
+
 public class CarData {
     private int id;
     private int inteid;
@@ -58,5 +60,9 @@ public class CarData {
 
     public int GetUpDirection() {
         return updirection;
+    }
+    public String GetCar(){
+
+        return "[id:"+GetId()+" inteid:"+GetInteid()+" direction:"+GetDirection()+" lane:"+GetLane()+" carplate:"+GetCarplate()+" passtime:"+GetPasstime()+" traveltime:"+GetTraveltime()+" upinteid:"+GetUpInteid()+" uplane:"+GetUpLane()+" updirection:"+GetUpDirection()+']';
     }
 }
