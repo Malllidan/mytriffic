@@ -18,6 +18,7 @@ public class CurveMain {
         List<TscLaneData> myidtsclanelist=new ArrayList<>();
         Map<String,List<CarData>> mycarmap=new HashMap<>();
         Map<String,Float> myflowmap=new HashMap<>();
+        Map<String,Integer> myflowanglemap=new HashMap<>();
         try {
             MysqlLink.Connect();
             MysqlLink_Car mysqllink_car= new MysqlLink_Car();
@@ -35,9 +36,12 @@ public class CurveMain {
             myidtsclanelist=TscLaneData.GetIdTscLaneDataList(mytsclanelist,56);
             mycarmap=CurveFlow.DirectionSwitch(mycarlist,myidtsclanelist);
             myflowmap=CurveFlow.AllFlowCalculate(mycarmap);
+            myflowanglemap=CurvePicture.AllFlowAngleCalculate(myflowmap);
+
 
 
             System.out.println(myflowmap.get("flow4base"));
+            System.out.println(myflowanglemap.get("flow4base"));
 
 
         }catch (Exception e){
