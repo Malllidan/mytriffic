@@ -11,8 +11,8 @@ public class CurveMain {
     public static void main(String...args){
         String sql="i056";
         String sql_tsc="tsclane";
-        String date1="2017-05-24 0:0:0";
-        String date2="2017-05-25 0:0:0";
+        String date1="2017-05-26 0:0:0";
+        String date2="2017-05-27 0:0:0";
         List<CarData> mycarlist=new ArrayList<>();
         List<TscLaneData> mytsclanelist=new ArrayList<>();
         List<TscLaneData> myidtsclanelist=new ArrayList<>();
@@ -37,15 +37,11 @@ public class CurveMain {
             mycarmap=CurveFlow.DirectionSwitch(mycarlist,myidtsclanelist);
             myflowmap=CurveFlow.AllFlowCalculate(mycarmap);
             myflowanglemap=CurvePicture.AllFlowAngleCalculate(myflowmap);
-
-
-
-            System.out.println(myflowmap.get("flow4base"));
-            System.out.println(myflowanglemap.get("flow4base"));
-
-
+            System.out.println(myflowmap.get("flow0base"));
+            System.out.println(myflowanglemap.get("flow0base"));
         }catch (Exception e){
             e.printStackTrace();
         }
+        CurvePicture.CurvePictureMaker(myflowanglemap);
     }
 }

@@ -49,7 +49,7 @@ public class MyJFrame {
 
 
         BufferedImage img = new BufferedImage(imgsizeint, imgsizeint, BufferedImage.TYPE_INT_RGB);
-        Graphics g=img.createGraphics();
+        Graphics g=img.getGraphics();
         mp.paintComponents(g);
 
 
