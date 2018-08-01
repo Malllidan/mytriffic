@@ -11,8 +11,8 @@ public class CurveMain {
     public static void main(String...args){
         String sql="i056";
         String sql_tsc="tsclane";
-        String date1="2017-05-26 0:0:0";
-        String date2="2017-05-27 0:0:0";
+        String date1="2017-05-27 16:0:0";
+        String date2="2017-05-28 0:0:0";
         List<CarData> mycarlist=new ArrayList<>();
         List<TscLaneData> mytsclanelist=new ArrayList<>();
         List<TscLaneData> myidtsclanelist=new ArrayList<>();

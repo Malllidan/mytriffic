@@ -51,6 +51,7 @@ public class TscLaneData {
         int movement=0;
         int sid=0;
         int turn=0;
+
         for(TscLaneData t:idtsclanedate){
             if(t.GetDirection()==0){
                 d0++;
@@ -85,6 +86,7 @@ public class TscLaneData {
             }
         }
         if(direction==0){
+
             switch (movement){
                 case 1:
                     turn=6;

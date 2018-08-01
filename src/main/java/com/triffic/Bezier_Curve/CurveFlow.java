@@ -103,10 +103,12 @@ public class CurveFlow {
         directionlist.put("flow6to0",new ArrayList<CarData>());
         directionlist.put("flow6to2",new ArrayList<CarData>());
         directionlist.put("flow6to4",new ArrayList<CarData>());
+        int i=0;
 
 
         for(CarData c:carDataList){
-            if(c.GetDirection()==0){
+            if(c.GetDirection()==0&&c.GetLane()!=6){
+
                 directionlist.get("flow0base").add(c);
             }
             else if(c.GetDirection()==2){
@@ -123,16 +125,21 @@ public class CurveFlow {
         if(flow0base.size()!=0){
             for(CarData c:flow0base){
                 int turn=TscLaneData.GetTurn(idtsclanedate,c.GetDirection(),c.GetLane());
+                //System.out.println(c.GetDirection());
                 switch (turn){
                     case 2:
+
                         directionlist.get("flow0to2").add(c);
                         break;
                     case 4:
-                    directionlist.get("flow0to4").add(c);
-                    break;
+                        directionlist.get("flow0to4").add(c);
+                        break;
                     case 6:
-                    directionlist.get("flow0to6").add(c);
-                    break;
+                        directionlist.get("flow0to6").add(c);
+                        break;
+                    default:
+                        System.out.println(c.GetCar());
+                        System.out.println(i++);
 
 
                 }
