@@ -130,16 +130,19 @@ class CurvePanel extends JPanel {
             }
 
         }
+
         for(Map.Entry<String,Integer>entry:mydirectionphase.entrySet()){
             String directionname=entry.getKey();
-            if(!directionname.substring(directionname.length()-4).equals("base")){
-                GeneralPath mypath=new GeneralPath(GeneralPath.WIND_EVEN_ODD,this.myflowanglemap.get(directionname).intValue()*2);
+            if(!directionname.substring(directionname.length()-4).equals("base")&&this.myflowanglemap.get(directionname).intValue()!=0){
+                GeneralPath mypath=new GeneralPath(GeneralPath.WIND_NON_ZERO,this.myflowanglemap.get(directionname).intValue()*2);
                 int phase=mydirectionphase.get(directionname).intValue();
                 int deviation=mydirectiondeviation.get(directionname).intValue();
                 float[] xgroud=new float[this.myflowanglemap.get(directionname).intValue()];
                 float[] ygroud=new float[this.myflowanglemap.get(directionname).intValue()];
                 float[] xgroud1=new float[this.myflowanglemap.get(directionname).intValue()];
                 float[] ygroud1=new float[this.myflowanglemap.get(directionname).intValue()];
+
+
 
 
                 if(startphase==2){
@@ -158,13 +161,314 @@ class CurvePanel extends JPanel {
                         for(int i=1;i<xgroud.length;i++){
                             mypath.lineTo(xgroud[i],ygroud[i]);
                         }
-                        mypath.moveTo(xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
-                        //mypath.curveTo(0,0,0,0,xgroud1[xgroud1.length-1],ygroud[ygroud1.length-1]);
+                        //mypath.moveTo(xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        mypath.curveTo(0,0,0,0,xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        //mypath.quadTo(0,0,xgroud1[xgroud1.length-1],ygroud[ygroud1.length-1]);
                         for(int i=xgroud1.length-2;i>=0;i--){
                             mypath.lineTo(xgroud1[i],ygroud1[i]);
                         }
-                        //mypath.curveTo(0,0,0,0,xgroud[0],ygroud[0]);
+                        mypath.curveTo(0,0,0,0,xgroud[0],ygroud[0]);
                         mypathgroud.add(mypath);
+
+                    }
+                    else if(phase==3){//0-4
+                        int thisdeviation=this.myflowanglemap.get("flow0to2");
+                        for(int i=0;i<xgroud.length;i++){
+                            xgroud[i]=(float) (r*Math.cos(0.5*Math.PI+(i+thisdeviation)/180.0*Math.PI));
+                            ygroud[i]=(float) (r*Math.sin(0.5*Math.PI+(i+thisdeviation)/180.0*Math.PI));
+                        }
+
+                        for(int i=0;i<xgroud1.length;i++){
+                            xgroud1[i]=(float) (r*Math.cos(1.5*Math.PI-(i+deviation)/180.0*Math.PI));
+                            ygroud1[i]=(float) (r*Math.sin(1.5*Math.PI-(i+deviation)/180.0*Math.PI));
+                        }
+
+                        mypath.moveTo(xgroud[0],ygroud[0]);
+                        for(int i=1;i<xgroud.length;i++){
+                            mypath.lineTo(xgroud[i],ygroud[i]);
+                        }
+                        //mypath.moveTo(xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        mypath.curveTo(0,0,0,0,xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        //mypath.quadTo(0,0,xgroud1[xgroud1.length-1],ygroud[ygroud1.length-1]);
+                        for(int i=xgroud1.length-2;i>=0;i--){
+                            mypath.lineTo(xgroud1[i],ygroud1[i]);
+                        }
+                        mypath.curveTo(0,0,0,0,xgroud[0],ygroud[0]);
+                        mypathgroud.add(mypath);
+
+
+                    }
+                    else if(phase==2){//0-6
+                        int thisdeviation=this.myflowanglemap.get("flow0to2")+this.myflowanglemap.get("flow0to4");
+                        for(int i=0;i<xgroud.length;i++){
+                            xgroud[i]=(float) (r*Math.cos(0.5*Math.PI+(i+thisdeviation)/180.0*Math.PI));
+                            ygroud[i]=(float) (r*Math.sin(0.5*Math.PI+(i+thisdeviation)/180.0*Math.PI));
+                        }
+
+                        for(int i=0;i<xgroud1.length;i++){
+                            xgroud1[i]=(float) (r*Math.cos(Math.PI-(i+deviation)/180.0*Math.PI));
+                            ygroud1[i]=(float) (r*Math.sin(Math.PI-(i+deviation)/180.0*Math.PI));
+                        }
+
+                        mypath.moveTo(xgroud[0],ygroud[0]);
+                        for(int i=1;i<xgroud.length;i++){
+                            mypath.lineTo(xgroud[i],ygroud[i]);
+                        }
+                        //mypath.moveTo(xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        mypath.curveTo(0,0,0,0,xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        //mypath.quadTo(0,0,xgroud1[xgroud1.length-1],ygroud[ygroud1.length-1]);
+                        for(int i=xgroud1.length-2;i>=0;i--){
+                            mypath.lineTo(xgroud1[i],ygroud1[i]);
+                        }
+                        mypath.curveTo(0,0,0,0,xgroud[0],ygroud[0]);
+                        mypathgroud.add(mypath);
+
+
+                    }
+
+                }
+                if(startphase==1){
+                    if(phase==3) {//2-4
+                        for(int i=0;i<xgroud.length;i++){
+                            xgroud[i]=(float) (r*Math.cos(i/180.0*Math.PI));
+                            ygroud[i]=(float) (r*Math.sin(i/180.0*Math.PI));
+                        }
+
+                        for(int i=0;i<xgroud1.length;i++){
+                            xgroud1[i]=(float) (r*Math.cos(1.5*Math.PI-(i+deviation)/180.0*Math.PI));
+                            ygroud1[i]=(float) (r*Math.sin(1.5*Math.PI-(i+deviation)/180.0*Math.PI));
+                        }
+
+                        mypath.moveTo(xgroud[0],ygroud[0]);
+                        for(int i=1;i<xgroud.length;i++){
+                            mypath.lineTo(xgroud[i],ygroud[i]);
+                        }
+                        //mypath.moveTo(xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        mypath.curveTo(0,0,0,0,xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        //mypath.quadTo(0,0,xgroud1[xgroud1.length-1],ygroud[ygroud1.length-1]);
+                        for(int i=xgroud1.length-2;i>=0;i--){
+                            mypath.lineTo(xgroud1[i],ygroud1[i]);
+                        }
+                        mypath.curveTo(0,0,0,0,xgroud[0],ygroud[0]);
+                        mypathgroud.add(mypath);
+
+                    }
+                    else if(phase==2){//2-6
+                        int thisdeviation=this.myflowanglemap.get("flow2to4");
+                        for(int i=0;i<xgroud.length;i++){
+                            xgroud[i]=(float) (r*Math.cos((i+thisdeviation)/180.0*Math.PI));
+                            ygroud[i]=(float) (r*Math.sin((i+thisdeviation)/180.0*Math.PI));
+                        }
+
+                        for(int i=0;i<xgroud1.length;i++){
+                            xgroud1[i]=(float) (r*Math.cos(Math.PI-(i+deviation)/180.0*Math.PI));
+                            ygroud1[i]=(float) (r*Math.sin(Math.PI-(i+deviation)/180.0*Math.PI));
+                        }
+
+                        mypath.moveTo(xgroud[0],ygroud[0]);
+                        for(int i=1;i<xgroud.length;i++){
+                            mypath.lineTo(xgroud[i],ygroud[i]);
+                        }
+                        //mypath.moveTo(xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        mypath.curveTo(0,0,0,0,xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        //mypath.quadTo(0,0,xgroud1[xgroud1.length-1],ygroud[ygroud1.length-1]);
+                        for(int i=xgroud1.length-2;i>=0;i--){
+                            mypath.lineTo(xgroud1[i],ygroud1[i]);
+                        }
+                        mypath.curveTo(0,0,0,0,xgroud[0],ygroud[0]);
+                        mypathgroud.add(mypath);
+
+
+                    }
+                    else if(phase==1){//2-0
+                        int thisdeviation=this.myflowanglemap.get("flow2to4")+this.myflowanglemap.get("flow2to6");
+                        for(int i=0;i<xgroud.length;i++){
+                            xgroud[i]=(float) (r*Math.cos((i+thisdeviation)/180.0*Math.PI));
+                            ygroud[i]=(float) (r*Math.sin((i+thisdeviation)/180.0*Math.PI));
+                        }
+
+                        for(int i=0;i<xgroud1.length;i++){
+                            xgroud1[i]=(float) (r*Math.cos(0.5*Math.PI-(i+deviation)/180.0*Math.PI));
+                            ygroud1[i]=(float) (r*Math.sin(0.5*Math.PI-(i+deviation)/180.0*Math.PI));
+                        }
+
+                        mypath.moveTo(xgroud[0],ygroud[0]);
+                        for(int i=1;i<xgroud.length;i++){
+                            mypath.lineTo(xgroud[i],ygroud[i]);
+                        }
+                        //mypath.moveTo(xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        mypath.curveTo(0,0,0,0,xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        //mypath.quadTo(0,0,xgroud1[xgroud1.length-1],ygroud[ygroud1.length-1]);
+                        for(int i=xgroud1.length-2;i>=0;i--){
+                            mypath.lineTo(xgroud1[i],ygroud1[i]);
+                        }
+                        mypath.curveTo(0,0,0,0,xgroud[0],ygroud[0]);
+                        mypathgroud.add(mypath);
+
+
+                    }
+
+                }
+                if(startphase==4){
+                    if(phase==2) {//4-6
+                        for(int i=0;i<xgroud.length;i++){
+                            xgroud[i]=(float) (r*Math.cos(1.5*Math.PI+i/180.0*Math.PI));
+                            ygroud[i]=(float) (r*Math.sin(1.5*Math.PI+i/180.0*Math.PI));
+                        }
+
+                        for(int i=0;i<xgroud1.length;i++){
+                            xgroud1[i]=(float) (r*Math.cos(Math.PI-(i+deviation)/180.0*Math.PI));
+                            ygroud1[i]=(float) (r*Math.sin(Math.PI-(i+deviation)/180.0*Math.PI));
+                        }
+
+                        mypath.moveTo(xgroud[0],ygroud[0]);
+                        for(int i=1;i<xgroud.length;i++){
+                            mypath.lineTo(xgroud[i],ygroud[i]);
+                        }
+                        //mypath.moveTo(xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        mypath.curveTo(0,0,0,0,xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        //mypath.quadTo(0,0,xgroud1[xgroud1.length-1],ygroud[ygroud1.length-1]);
+                        for(int i=xgroud1.length-2;i>=0;i--){
+                            mypath.lineTo(xgroud1[i],ygroud1[i]);
+                        }
+                        mypath.curveTo(0,0,0,0,xgroud[0],ygroud[0]);
+                        mypathgroud.add(mypath);
+
+                    }
+                    else if(phase==1){//4-0
+                        int thisdeviation=this.myflowanglemap.get("flow4to6");
+                        for(int i=0;i<xgroud.length;i++){
+                            xgroud[i]=(float) (r*Math.cos(1.5*Math.PI+(i+thisdeviation)/180.0*Math.PI));
+                            ygroud[i]=(float) (r*Math.sin(1.5*Math.PI+(i+thisdeviation)/180.0*Math.PI));
+                        }
+
+                        for(int i=0;i<xgroud1.length;i++){
+                            xgroud1[i]=(float) (r*Math.cos(0.5*Math.PI-(i+deviation)/180.0*Math.PI));
+                            ygroud1[i]=(float) (r*Math.sin(0.5*Math.PI-(i+deviation)/180.0*Math.PI));
+                        }
+
+                        mypath.moveTo(xgroud[0],ygroud[0]);
+                        for(int i=1;i<xgroud.length;i++){
+                            mypath.lineTo(xgroud[i],ygroud[i]);
+                        }
+                        //mypath.moveTo(xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        mypath.curveTo(0,0,0,0,xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        //mypath.quadTo(0,0,xgroud1[xgroud1.length-1],ygroud[ygroud1.length-1]);
+                        for(int i=xgroud1.length-2;i>=0;i--){
+                            mypath.lineTo(xgroud1[i],ygroud1[i]);
+                        }
+                        mypath.curveTo(0,0,0,0,xgroud[0],ygroud[0]);
+                        mypathgroud.add(mypath);
+
+
+                    }
+                    else if(phase==4){//4-2
+                        int thisdeviation=this.myflowanglemap.get("flow4to6")+this.myflowanglemap.get("flow4to0");
+                        for(int i=0;i<xgroud.length;i++){
+                            xgroud[i]=(float) (r*Math.cos(1.5*Math.PI+(i+thisdeviation)/180.0*Math.PI));
+                            ygroud[i]=(float) (r*Math.sin(1.5*Math.PI+(i+thisdeviation)/180.0*Math.PI));
+                        }
+
+                        for(int i=0;i<xgroud1.length;i++){
+                            xgroud1[i]=(float) (r*Math.cos(2*Math.PI-(i+deviation)/180.0*Math.PI));
+                            ygroud1[i]=(float) (r*Math.sin(2*Math.PI-(i+deviation)/180.0*Math.PI));
+                        }
+
+                        mypath.moveTo(xgroud[0],ygroud[0]);
+                        for(int i=1;i<xgroud.length;i++){
+                            mypath.lineTo(xgroud[i],ygroud[i]);
+                        }
+                        //mypath.moveTo(xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        mypath.curveTo(0,0,0,0,xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        //mypath.quadTo(0,0,xgroud1[xgroud1.length-1],ygroud[ygroud1.length-1]);
+                        for(int i=xgroud1.length-2;i>=0;i--){
+                            mypath.lineTo(xgroud1[i],ygroud1[i]);
+                        }
+                        mypath.curveTo(0,0,0,0,xgroud[0],ygroud[0]);
+                        mypathgroud.add(mypath);
+
+
+                    }
+
+                }
+                if(startphase==3){
+                    if(phase==1) {//6-0
+                        for(int i=0;i<xgroud.length;i++){
+                            xgroud[i]=(float) (r*Math.cos(Math.PI+i/180.0*Math.PI));
+                            ygroud[i]=(float) (r*Math.sin(Math.PI+i/180.0*Math.PI));
+                        }
+
+                        for(int i=0;i<xgroud1.length;i++){
+                            xgroud1[i]=(float) (r*Math.cos(0.5*Math.PI-(i+deviation)/180.0*Math.PI));
+                            ygroud1[i]=(float) (r*Math.sin(0.5*Math.PI-(i+deviation)/180.0*Math.PI));
+                        }
+
+                        mypath.moveTo(xgroud[0],ygroud[0]);
+                        for(int i=1;i<xgroud.length;i++){
+                            mypath.lineTo(xgroud[i],ygroud[i]);
+                        }
+                        //mypath.moveTo(xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        mypath.curveTo(0,0,0,0,xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        //mypath.quadTo(0,0,xgroud1[xgroud1.length-1],ygroud[ygroud1.length-1]);
+                        for(int i=xgroud1.length-2;i>=0;i--){
+                            mypath.lineTo(xgroud1[i],ygroud1[i]);
+                        }
+                        mypath.curveTo(0,0,0,0,xgroud[0],ygroud[0]);
+                        mypathgroud.add(mypath);
+
+                    }
+                    else if(phase==4){//6-2
+                        int thisdeviation=this.myflowanglemap.get("flow6to0");
+                        for(int i=0;i<xgroud.length;i++){
+                            xgroud[i]=(float) (r*Math.cos(Math.PI+(i+thisdeviation)/180.0*Math.PI));
+                            ygroud[i]=(float) (r*Math.sin(Math.PI+(i+thisdeviation)/180.0*Math.PI));
+                        }
+
+                        for(int i=0;i<xgroud1.length;i++){
+                            xgroud1[i]=(float) (r*Math.cos(2*Math.PI-(i+deviation)/180.0*Math.PI));
+                            ygroud1[i]=(float) (r*Math.sin(2*Math.PI-(i+deviation)/180.0*Math.PI));
+                        }
+
+                        mypath.moveTo(xgroud[0],ygroud[0]);
+                        for(int i=1;i<xgroud.length;i++){
+                            mypath.lineTo(xgroud[i],ygroud[i]);
+                        }
+                        //mypath.moveTo(xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        mypath.curveTo(0,0,0,0,xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        //mypath.quadTo(0,0,xgroud1[xgroud1.length-1],ygroud[ygroud1.length-1]);
+                        for(int i=xgroud1.length-2;i>=0;i--){
+                            mypath.lineTo(xgroud1[i],ygroud1[i]);
+                        }
+                        mypath.curveTo(0,0,0,0,xgroud[0],ygroud[0]);
+                        mypathgroud.add(mypath);
+
+
+                    }
+                    else if(phase==3){//6-4
+                        int thisdeviation=this.myflowanglemap.get("flow6to0")+this.myflowanglemap.get("flow6to2");
+                        for(int i=0;i<xgroud.length;i++){
+                            xgroud[i]=(float) (r*Math.cos(Math.PI+(i+thisdeviation)/180.0*Math.PI));
+                            ygroud[i]=(float) (r*Math.sin(Math.PI+(i+thisdeviation)/180.0*Math.PI));
+                        }
+
+                        for(int i=0;i<xgroud1.length;i++){
+                            xgroud1[i]=(float) (r*Math.cos(1.5*Math.PI-(i+deviation)/180.0*Math.PI));
+                            ygroud1[i]=(float) (r*Math.sin(1.5*Math.PI-(i+deviation)/180.0*Math.PI));
+                        }
+
+                        mypath.moveTo(xgroud[0],ygroud[0]);
+                        for(int i=1;i<xgroud.length;i++){
+                            mypath.lineTo(xgroud[i],ygroud[i]);
+                        }
+                        //mypath.moveTo(xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        mypath.curveTo(0,0,0,0,xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
+                        //mypath.quadTo(0,0,xgroud1[xgroud1.length-1],ygroud[ygroud1.length-1]);
+                        for(int i=xgroud1.length-2;i>=0;i--){
+                            mypath.lineTo(xgroud1[i],ygroud1[i]);
+                        }
+                        mypath.curveTo(0,0,0,0,xgroud[0],ygroud[0]);
+                        mypathgroud.add(mypath);
+
 
                     }
 
@@ -178,13 +482,227 @@ class CurvePanel extends JPanel {
     return mypathgroud;
 
     }
+    public List<GeneralPath> BlackSidePaint(int ri,int ro){
+        List<GeneralPath> mypathgroud= new ArrayList<>();
+        int angle0base=this.myflowanglemap.get("flow0base");
+        int angle2base=this.myflowanglemap.get("flow2base");
+        int angle4base=this.myflowanglemap.get("flow4base");
+        int angle6base=this.myflowanglemap.get("flow6base");
+        GeneralPath mypath0=new GeneralPath();
+        float [] xgroudo0= new float[angle0base];
+        float [] ygroudo0= new float[angle0base];
+        float [] xgroudi0= new float[angle0base];
+        float [] ygroudi0= new float[angle0base];
+        for(int i=0;i<angle0base;i++){
+           xgroudo0[i]=(float) (ro*Math.cos(0.5*Math.PI+(i/180.0*Math.PI)));
+           ygroudo0[i]=(float) (ro*Math.sin(0.5*Math.PI+(i/180.0*Math.PI)));
+        }
+        for(int i=0;i<angle0base;i++){
+            xgroudi0[i]=(float) (ri*Math.cos(0.5*Math.PI+(i/180.0*Math.PI)));
+            ygroudi0[i]=(float) (ri*Math.sin(0.5*Math.PI+(i/180.0*Math.PI)));
+        }
+        mypath0.moveTo(xgroudo0[0],ygroudo0[0]);
+        for(int i=1;i<angle0base;i++){
+            mypath0.lineTo(xgroudo0[i],ygroudo0[i]);
+
+        }
+        for(int i=angle0base-1;i>=0;i--){
+            mypath0.lineTo(xgroudi0[i],ygroudi0[i]);
+
+        }
+        mypathgroud.add(mypath0);
+
+        GeneralPath mypath2=new GeneralPath();
+        float [] xgroudo2= new float[angle2base];
+        float [] ygroudo2= new float[angle2base];
+        float [] xgroudi2= new float[angle2base];
+        float [] ygroudi2= new float[angle2base];
+        for(int i=0;i<angle2base;i++){
+            xgroudo2[i]=(float) (ro*Math.cos((i/180.0*Math.PI)));
+            ygroudo2[i]=(float) (ro*Math.sin((i/180.0*Math.PI)));
+        }
+        for(int i=0;i<angle2base;i++){
+            xgroudi2[i]=(float) (ri*Math.cos((i/180.0*Math.PI)));
+            ygroudi2[i]=(float) (ri*Math.sin((i/180.0*Math.PI)));
+        }
+        mypath2.moveTo(xgroudo2[0],ygroudo2[0]);
+        for(int i=1;i<angle2base;i++){
+            mypath2.lineTo(xgroudo2[i],ygroudo2[i]);
+
+        }
+        for(int i=angle2base-1;i>=0;i--){
+            mypath2.lineTo(xgroudi2[i],ygroudi2[i]);
+
+        }
+        mypathgroud.add(mypath2);
+
+        GeneralPath mypath4=new GeneralPath();
+        float [] xgroudo4= new float[angle4base];
+        float [] ygroudo4= new float[angle4base];
+        float [] xgroudi4= new float[angle4base];
+        float [] ygroudi4= new float[angle4base];
+        for(int i=0;i<angle4base;i++){
+            xgroudo4[i]=(float) (ro*Math.cos(1.5*Math.PI+(i/180.0*Math.PI)));
+            ygroudo4[i]=(float) (ro*Math.sin(1.5*Math.PI+(i/180.0*Math.PI)));
+        }
+        for(int i=0;i<angle4base;i++){
+            xgroudi4[i]=(float) (ri*Math.cos(1.5*Math.PI+(i/180.0*Math.PI)));
+            ygroudi4[i]=(float) (ri*Math.sin(1.5*Math.PI+(i/180.0*Math.PI)));
+        }
+        mypath4.moveTo(xgroudo4[0],ygroudo4[0]);
+        for(int i=1;i<angle4base;i++){
+            mypath4.lineTo(xgroudo4[i],ygroudo4[i]);
+
+        }
+        for(int i=angle4base-1;i>=0;i--){
+            mypath4.lineTo(xgroudi4[i],ygroudi4[i]);
+
+        }
+        mypathgroud.add(mypath4);
+
+        GeneralPath mypath6=new GeneralPath();
+        float [] xgroudo6= new float[angle6base];
+        float [] ygroudo6= new float[angle6base];
+        float [] xgroudi6= new float[angle6base];
+        float [] ygroudi6= new float[angle6base];
+        for(int i=0;i<angle6base;i++){
+            xgroudo6[i]=(float) (ro*Math.cos(1*Math.PI+(i/180.0*Math.PI)));
+            ygroudo6[i]=(float) (ro*Math.sin(1*Math.PI+(i/180.0*Math.PI)));
+        }
+        for(int i=0;i<angle6base;i++){
+            xgroudi6[i]=(float) (ri*Math.cos(1*Math.PI+(i/180.0*Math.PI)));
+            ygroudi6[i]=(float) (ri*Math.sin(1*Math.PI+(i/180.0*Math.PI)));
+        }
+        mypath6.moveTo(xgroudo6[0],ygroudo6[0]);
+        for(int i=1;i<angle6base;i++){
+            mypath6.lineTo(xgroudo6[i],ygroudo6[i]);
+
+        }
+        for(int i=angle6base-1;i>=0;i--){
+            mypath6.lineTo(xgroudi6[i],ygroudi6[i]);
+
+        }
+        mypathgroud.add(mypath6);
+
+
+
+
+
+        return mypathgroud;
+    }
+    public List<GeneralPath> GarySidePaint(int ri,int ro){
+        List<GeneralPath> mypathgroud= new ArrayList<>();
+        int angle0base=this.myflowanglemap.get("flow4to0")+this.myflowanglemap.get("flow2to0")+this.myflowanglemap.get("flow6to0");
+        int angle2base=this.myflowanglemap.get("flow0to2")+this.myflowanglemap.get("flow4to2")+this.myflowanglemap.get("flow6to2");
+        int angle4base=this.myflowanglemap.get("flow0to4")+this.myflowanglemap.get("flow2to4")+this.myflowanglemap.get("flow6to4");
+        int angle6base=this.myflowanglemap.get("flow0to6")+this.myflowanglemap.get("flow2to6")+this.myflowanglemap.get("flow4to6");
+        GeneralPath mypath0=new GeneralPath();
+        float [] xgroudo0= new float[angle0base];
+        float [] ygroudo0= new float[angle0base];
+        float [] xgroudi0= new float[angle0base];
+        float [] ygroudi0= new float[angle0base];
+        for(int i=0;i<angle0base;i++){
+            xgroudo0[i]=(float) (ro*Math.cos(0.5*Math.PI-(i/180.0*Math.PI)));
+            ygroudo0[i]=(float) (ro*Math.sin(0.5*Math.PI-(i/180.0*Math.PI)));
+        }
+        for(int i=0;i<angle0base;i++){
+            xgroudi0[i]=(float) (ri*Math.cos(0.5*Math.PI-(i/180.0*Math.PI)));
+            ygroudi0[i]=(float) (ri*Math.sin(0.5*Math.PI-(i/180.0*Math.PI)));
+        }
+        mypath0.moveTo(xgroudo0[0],ygroudo0[0]);
+        for(int i=1;i<angle0base;i++){
+            mypath0.lineTo(xgroudo0[i],ygroudo0[i]);
+
+        }
+        for(int i=angle0base-1;i>=0;i--){
+            mypath0.lineTo(xgroudi0[i],ygroudi0[i]);
+
+        }
+        mypathgroud.add(mypath0);
+
+        GeneralPath mypath2=new GeneralPath();
+        float [] xgroudo2= new float[angle2base];
+        float [] ygroudo2= new float[angle2base];
+        float [] xgroudi2= new float[angle2base];
+        float [] ygroudi2= new float[angle2base];
+        for(int i=0;i<angle2base;i++){
+            xgroudo2[i]=(float) (ro*Math.cos(2*Math.PI-(i/180.0*Math.PI)));
+            ygroudo2[i]=(float) (ro*Math.sin(2*Math.PI-(i/180.0*Math.PI)));
+        }
+        for(int i=0;i<angle2base;i++){
+            xgroudi2[i]=(float) (ri*Math.cos(2*Math.PI-(i/180.0*Math.PI)));
+            ygroudi2[i]=(float) (ri*Math.sin(2*Math.PI-(i/180.0*Math.PI)));
+        }
+        mypath2.moveTo(xgroudo2[0],ygroudo2[0]);
+        for(int i=1;i<angle2base;i++){
+            mypath2.lineTo(xgroudo2[i],ygroudo2[i]);
+
+        }
+        for(int i=angle2base-1;i>=0;i--){
+            mypath2.lineTo(xgroudi2[i],ygroudi2[i]);
+
+        }
+        mypathgroud.add(mypath2);
+
+        GeneralPath mypath4=new GeneralPath();
+        float [] xgroudo4= new float[angle4base];
+        float [] ygroudo4= new float[angle4base];
+        float [] xgroudi4= new float[angle4base];
+        float [] ygroudi4= new float[angle4base];
+        for(int i=0;i<angle4base;i++){
+            xgroudo4[i]=(float) (ro*Math.cos(1.5*Math.PI-(i/180.0*Math.PI)));
+            ygroudo4[i]=(float) (ro*Math.sin(1.5*Math.PI-(i/180.0*Math.PI)));
+        }
+        for(int i=0;i<angle4base;i++){
+            xgroudi4[i]=(float) (ri*Math.cos(1.5*Math.PI-(i/180.0*Math.PI)));
+            ygroudi4[i]=(float) (ri*Math.sin(1.5*Math.PI-(i/180.0*Math.PI)));
+        }
+        mypath4.moveTo(xgroudo4[0],ygroudo4[0]);
+        for(int i=1;i<angle4base;i++){
+            mypath4.lineTo(xgroudo4[i],ygroudo4[i]);
+
+        }
+        for(int i=angle4base-1;i>=0;i--){
+            mypath4.lineTo(xgroudi4[i],ygroudi4[i]);
+
+        }
+        mypathgroud.add(mypath4);
+
+        GeneralPath mypath6=new GeneralPath();
+        float [] xgroudo6= new float[angle6base];
+        float [] ygroudo6= new float[angle6base];
+        float [] xgroudi6= new float[angle6base];
+        float [] ygroudi6= new float[angle6base];
+        for(int i=0;i<angle6base;i++){
+            xgroudo6[i]=(float) (ro*Math.cos(1*Math.PI-(i/180.0*Math.PI)));
+            ygroudo6[i]=(float) (ro*Math.sin(1*Math.PI-(i/180.0*Math.PI)));
+        }
+        for(int i=0;i<angle6base;i++){
+            xgroudi6[i]=(float) (ri*Math.cos(1*Math.PI-(i/180.0*Math.PI)));
+            ygroudi6[i]=(float) (ri*Math.sin(1*Math.PI-(i/180.0*Math.PI)));
+        }
+        mypath6.moveTo(xgroudo6[0],ygroudo6[0]);
+        for(int i=1;i<angle6base;i++){
+            mypath6.lineTo(xgroudo6[i],ygroudo6[i]);
+
+        }
+        for(int i=angle6base-1;i>=0;i--){
+            mypath6.lineTo(xgroudi6[i],ygroudi6[i]);
+
+        }
+        mypathgroud.add(mypath6);
+
+
+
+
+
+        return mypathgroud;
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         int rb=100;
-        int rs=95;
-//        int flow0baseangle=myflowanglemap.get("flow0base").intValue();
-//        int flow0to2=myflowanglemap.get("flow0to2").intValue();
-//        System.out.println(flow0to2);
+        int rs=105;
 
         super.paintComponent(g);
 
@@ -192,78 +710,69 @@ class CurvePanel extends JPanel {
         g2d.translate(getWidth() / 2, getHeight() / 2);
         g2d.scale(1,-1);
         g2d.setColor(Color.black);
-        g2d.drawLine(-200,0,200,0);
-        g2d.drawLine(0,200,0,-200);//建立坐标轴
+//        g2d.drawLine(-200,0,200,0);
+//        g2d.drawLine(0,200,0,-200);//建立坐标轴
 
-//        float[] xgroud=new float[flow0baseangle];
-//        float[] ygroud=new float[flow0baseangle];
-//        for(int i=0;i<flow0baseangle;i++){
-//
-//            xgroud[i]=(float) (rb*Math.cos(0.5*Math.PI+i/180.0*Math.PI));
-//            ygroud[i]=(float) (rb*Math.sin(0.5*Math.PI+i/180.0*Math.PI));
-//        }
-//        float[] xgroud1=new float[flow0to2];
-//        float[] ygroud1=new float[flow0to2];
-//
-//        for(int i=0;i<flow0to2;i++){
-//
-//            xgroud1[i]=(float) (rb*Math.cos(2*Math.PI-i/180.0*Math.PI));
-//            ygroud1[i]=(float) (rb*Math.sin(2*Math.PI-i/180.0*Math.PI));
-//        }
-//
-//        //System.out.println(xgroud[28]);
-//        GeneralPath mypath=new GeneralPath(GeneralPath.WIND_EVEN_ODD,flow0baseangle+flow0to2);
-//        mypath.moveTo(xgroud[0],ygroud[0]);
-//        for(int i=1;i<xgroud.length;i++){
-//            mypath.lineTo(xgroud[i],ygroud[i]);
-//        }
-//        mypath.moveTo(xgroud[flow0to2-1],ygroud[flow0to2-1]);
-//        mypath.curveTo(0,0,0,0,xgroud1[xgroud1.length-1],ygroud1[ygroud1.length-1]);
-//        for(int i=xgroud1.length-2;i>0;i--){
-//            mypath.lineTo(xgroud1[i],ygroud1[i]);
-//        }
-//
-//        mypath.curveTo(0,0,0,0,xgroud[0],ygroud[0]);
-//        CubicCurve2D c=new CubicCurve2D.Double();
-//        c.setCurve(xgroud[29],ygroud[29],0,0,0,0,xgroud1[9],ygroud1[9]);
-        List<GeneralPath> mypathgroud=DirectionaAngelPaint(this.mydirectionphase0,this.mydirectiondeviation0,0,100);
-        g2d.setPaint(Color.black);
-        Stroke mystroke=new BasicStroke(1);
-        g2d.setStroke(mystroke);
-        //g2d.setStroke();
+        List<GeneralPath> mypathgroud0=DirectionaAngelPaint(this.mydirectionphase0,this.mydirectiondeviation0,0,rb);
+        List<GeneralPath> mypathgroud2=DirectionaAngelPaint(this.mydirectionphase2,this.mydirectiondeviation2,2,rb);
+        List<GeneralPath> mypathgroud4=DirectionaAngelPaint(this.mydirectionphase4,this.mydirectiondeviation4,4,rb);
+        List<GeneralPath> mypathgroud6=DirectionaAngelPaint(this.mydirectionphase6,this.mydirectiondeviation6,6,rb);
+        List<GeneralPath> mypathgroudblacksise=BlackSidePaint(rb-1,rs);
+        List<GeneralPath> mypathgroudgraysise=GarySidePaint(rb-1,rs);
 
-        g2d.draw(mypathgroud.get(0));
+        for(GeneralPath mypath:mypathgroud0){
 
-        g2d.setPaint(Color.green);
+            g2d.setPaint(new Color(66,199,81));
+            Stroke mystroke=new BasicStroke(1);
+            g2d.setStroke(mystroke);
+            g2d.draw(mypath);
+            g2d.setPaint(new Color(66,199,81));
+            g2d.fill(mypath);
+        }
 
-        //g2d.fill(mypath);
+        for(GeneralPath mypath:mypathgroud2){
+            g2d.setPaint(new Color(243,112,63));
+            Stroke mystroke=new BasicStroke(1);
+            g2d.setStroke(mystroke);
+            g2d.draw(mypath);
+            g2d.setPaint(new Color(243,112,63));
+            g2d.fill(mypath);
+        }
+        for(GeneralPath mypath:mypathgroud4){
+            g2d.setPaint(Color.pink);
+            Stroke mystroke=new BasicStroke(1);
+            g2d.setStroke(mystroke);
+            g2d.draw(mypath);
+            g2d.setPaint(Color.pink);
+            g2d.fill(mypath);
+        }
+        for(GeneralPath mypath:mypathgroud6){
+            g2d.setPaint(new Color(83  ,143,169));
+            Stroke mystroke=new BasicStroke(2);
+            g2d.setStroke(mystroke);
+            g2d.draw(mypath);
+            g2d.setPaint(new Color(83  ,143,169));
+            g2d.fill(mypath);
+        }
+        for(GeneralPath mypath:mypathgroudblacksise){
+            //AlphaComposite myAl=AlphaComposite.getInstance(AlphaComposite.SRC,0f);
 
-        //g2d.draw(c);
-
-
-
-
-
-
-        //g2d.drawLine(20,20,100,100);
-        //g2d.scale(1,-1);
-//        g2d.drawArc(-rb,-rb,2*rb,2*rb,90,flow0baseangle);//用g2d画图
-//        g2d.drawArc(-rs,-rs,2*rs,2*rs,90,flow0baseangle);
-//        g2d.setColor(Color.black);
-//        g2d.fillArc(-rb,-rb,2*rb,2*rb,90,flow0baseangle);
-//        g2d.setColor(Color.green);
-//        g2d.fillArc(-rs,-rs,2*rs,2*rs,90,flow0baseangle);
-
-
-
-
-
-
-
-
-        //g.drawRect(20,20,100,100);
-
-
+            g2d.setPaint(Color.black);
+            Stroke mystroke=new BasicStroke(1);
+            g2d.setStroke(mystroke);
+            //g2d.setComposite(myAl);
+            g2d.draw(mypath);
+            g2d.setPaint(Color.black);
+            g2d.fill(mypath);
+        }
+        for(GeneralPath mypath:mypathgroudgraysise){
+            g2d.setPaint(Color.gray);
+            Stroke mystroke=new BasicStroke(1);
+            g2d.setStroke(mystroke);
+            g2d.draw(mypath);
+            g2d.setPaint(Color.gray);
+            g2d.fill(mypath);
+        }
 
     }
 }
